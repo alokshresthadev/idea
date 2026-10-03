@@ -1,0 +1,32 @@
+# Render Blueprint: web service (Docker) + free Postgres.
+# Secrets are NOT stored here. Render asks for them when you create the Blueprint
+# (copy the values from your local .env file).
+databases:
+  - name: ideax-ctf-db
+    plan: free
+    ipAllowList: []   # internal connections only
+
+services:
+  - type: web
+    name: ideax-ctf
+    runtime: docker
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ideax-ctf-db
+          property: connectionString
+      - key: CTF_EVENT_NAME
+        value: ideaX CTF
+      - key: CTF_SECRET_KEY
+        sync: false
+      - key: CTF_ORGANIZER_KEY
+        sync: false
+      - key: FLAG_IDOR
+        sync: false
+      - key: FLAG_DIRLIST
+        sync: false
+      - key: FLAG_XSS
+        sync: false
+      - key: FLAG_OSINT
+        sync: false
